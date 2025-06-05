@@ -1,0 +1,74 @@
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Recent Transactions</h3>
+        <button pButton type="button" label="Add Transaction" icon="pi pi-plus" class="p-button-primary"
+            (click)="showAddDialog = true"></button>
+    </div>
+
+    <p-table [value]="transactions" [paginator]="true" [rows]="5" [responsiveLayout]="'scroll'"
+        [rowsPerPageOptions]="[5, 10, 20]">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Type</th>
+            </tr>
+        </ng-template>
+
+        <ng-template pTemplate="body" let-tx>
+            <tr>
+                <td>{{ tx.transactionDate | date: 'mediumDate' }}</td>
+                <td>{{ tx.description }}</td>
+                <td>
+                    <span class="badge rounded-pill" [ngClass]="categoryBadge(tx.category)">
+                        {{ tx.category }}
+                    </span>
+                </td>
+                <td>\${{ tx.amount.toFixed(2) }}</td>
+                <td>
+                    <span class="badge rounded-pill" [ngClass]="typeBadge(tx.type)">
+                        {{ tx.type }}
+                    </span>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+
+    <p-dialog header="Add Transaction" [(visible)]="showAddDialog" [modal]="true" [style]="{ width: '30vw' }">
+        <form [formGroup]="transactionForm" (ngSubmit)="saveTransaction()">
+            <div class="mb-3">
+                <label class="form-label">Date</label>
+                <input type="date" pInputText class="form-control" formControlName="transactionDate" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Description</label>
+                <input type="text" pInputText class="form-control" formControlName="description" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Category</label>
+                <input type="text" pInputText class="form-control" formControlName="category" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Amount</label>
+                <input type="number" pInputText class="form-control" formControlName="amount" />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Type</label>
+                <select class="form-select" formControlName="type">
+                    <option value="INCOME">Income</option>
+                    <option value="EXPENSE">Expense</option>
+                </select>
+            </div>
+
+            <div class="text-end">
+                <button type="submit" pButton label="Save" class="p-button-primary"></button>
+            </div>
+        </form>
+    </p-dialog>
+</div>
