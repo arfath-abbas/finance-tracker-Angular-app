@@ -6,13 +6,24 @@ import { environment } from '../../environments/environment';
 @Injectable({ providedIn: 'root' })
 export class TransactionService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${environment.apiBaseUrl}`;
+  private readonly baseUrl = `${environment.apiBaseUrl}/api/transactions`;
 
-  getAllTransactions(): Observable<any[]> {
-    return this.http.get<any[]>(`${this.baseUrl}/api/transactions/getAll`);
+  getAll(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.baseUrl}/getAll`);
   }
 
-  createTransaction(tx: any): Observable<any> {
+  create(tx: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}`, tx);
   }
+
+  update(id: number, tx: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${id}`, tx);
+  }
+
+  delete(id: number): Observable<string> {
+    return this.http.delete(`${this.baseUrl}/${id}`, {
+      responseType: 'text'
+    });
+  }
 }
+

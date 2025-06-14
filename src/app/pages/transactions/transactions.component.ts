@@ -17,6 +17,8 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { TooltipModule } from 'primeng/tooltip';
 import { HttpService } from '../../../core/services/http.service';
 import { CardModule } from 'primeng/card';
+import { TransactionService } from '../../../core/services/transaction.service';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
     selector: 'app-transactions',
@@ -32,22 +34,28 @@ import { CardModule } from 'primeng/card';
         ConfirmDialogModule,
         ProgressSpinnerModule,
         ReactiveFormsModule,
-        CardModule
+        CardModule,
+        DropdownModule
     ],
     templateUrl: './transactions.component.html',
-    providers: [MessageService, ConfirmationService],
+    styleUrls: ['./transactions.component.scss']
 })
 export class TransactionsComponent implements OnInit {
     private readonly fb = inject(FormBuilder);
     private readonly httpService = inject(HttpService);
     private readonly toast = inject(MessageService);
     private readonly confirm = inject(ConfirmationService);
+    private readonly txService = inject(TransactionService);
 
     transactions: any[] = [];
     transactionForm!: FormGroup;
     showAddDialog = false;
     loading = false;
     selectedTx: any = null;
+    typeOptions = [
+        { label: 'Expense', value: 'EXPENSE' },
+        { label: 'Income', value: 'INCOME' }
+    ];
 
     ngOnInit(): void {
         this.transactionForm = this.fb.group({
@@ -63,7 +71,7 @@ export class TransactionsComponent implements OnInit {
 
     loadTransactions() {
         this.loading = true;
-        this.httpService.get<any[]>('api/transactions/getAll').subscribe({
+        this.txService.getAll().subscribe({
             next: (res: any[]) => {
                 this.transactions = res;
                 this.loading = false;
@@ -89,31 +97,32 @@ export class TransactionsComponent implements OnInit {
         if (this.transactionForm.valid) {
             const tx = this.transactionForm.value;
 
-            if (this.selectedTx) {
-                this.httpService
-                    .put(`api/transactions/${this.selectedTx.id}`, tx)
-                    .subscribe({
-                        next: () => {
-                            this.loadTransactions();
-                            this.toast.add({
-                                severity: 'success',
-                                summary: 'Updated',
-                                detail: 'Transaction updated successfully',
-                            });
-                            this.showAddDialog = false;
-                            this.transactionForm.reset({ type: 'EXPENSE' });
-                            this.selectedTx = null;
-                        },
-                        error: (err) => {
-                            this.toast.add({
-                                severity: 'error',
-                                summary: 'Error',
-                                detail: this.httpService.handleErrorResponse(err),
-                            });
-                        },
-                    });
-            } else {
-                this.httpService.post('api/transactions', tx).subscribe({
+            // Edit Mode
+            if (this?.selectedTx) {
+                const id = this.selectedTx.id;
+
+                this.txService.update(id, tx).subscribe({
+                    next: () => {
+                        this.loadTransactions();
+                        this.toast.add({
+                            severity: 'success',
+                            summary: 'Updated',
+                            detail: 'Transaction updated successfully',
+                        });
+                        this.resetForm();
+                    },
+                    error: (err) => {
+                        this.toast.add({
+                            severity: 'error',
+                            summary: 'Error',
+                            detail: this.httpService.handleErrorResponse(err),
+                        });
+                    },
+                });
+            }
+            // Add Mode
+            else {
+                this.txService.create(tx).subscribe({
                     next: (res) => {
                         this.transactions = [...this.transactions, res];
                         this.toast.add({
@@ -121,8 +130,7 @@ export class TransactionsComponent implements OnInit {
                             summary: 'Added',
                             detail: 'Transaction added successfully',
                         });
-                        this.showAddDialog = false;
-                        this.transactionForm.reset({ type: 'EXPENSE' });
+                        this.resetForm();
                     },
                     error: (err) => {
                         this.toast.add({
@@ -145,16 +153,19 @@ export class TransactionsComponent implements OnInit {
     deleteTransaction(id: number) {
         this.confirm.confirm({
             message: 'Are you sure you want to delete this transaction?',
+            header: 'Delete Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptLabel: 'Delete',
+            rejectLabel: 'Cancel',
             accept: () => {
-                this.httpService.delete(`api/transactions/${id}`).subscribe({
-                    next: () => {
+                this.txService.delete(id).subscribe({
+                    next: (message: string) => {
                         this.transactions = this.transactions.filter((t) => t.id !== id);
                         this.toast.add({
                             severity: 'success',
                             summary: 'Deleted',
-                            detail: 'Transaction deleted successfully',
+                            detail: message,
                         });
-                        this.loadTransactions();
                     },
                     error: (err) => {
                         this.toast.add({
@@ -166,6 +177,12 @@ export class TransactionsComponent implements OnInit {
                 });
             },
         });
+    }
+
+    resetForm() {
+        this.showAddDialog = false;
+        this.transactionForm.reset({ type: 'EXPENSE' });
+        this.selectedTx = null;
     }
 
     categoryBadge(category: string): string {

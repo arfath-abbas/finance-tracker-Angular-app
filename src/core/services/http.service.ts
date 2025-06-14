@@ -35,7 +35,7 @@ export class HttpService {
     handleErrorResponse(error: any): string {
         let errorMessage = 'An unknown error occurred. Please try again later.';
 
-        if (error && error.status) {
+        if (error?.status) {
             switch (error.status) {
                 case 400:
                     errorMessage = 'Bad Request. Please check the form data.';

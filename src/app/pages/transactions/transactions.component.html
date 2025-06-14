@@ -8,9 +8,8 @@
 
     <p-card *ngIf="!loading" class="shadow-sm">
         <p-table class="modern-table" [value]="transactions" [paginator]="true" [rows]="10"
-            [rowsPerPageOptions]="[5, 10, 20]" [responsiveLayout]="'scroll'" [showCurrentPageReport]="true"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-            [style]="{ 'min-width': '100%' }">
+            [rowsPerPageOptions]="[10, 20, 50]" [responsiveLayout]="'scroll'" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
             <ng-template pTemplate="header">
                 <tr>
                     <th>Date</th>
@@ -37,39 +36,35 @@
         </p-table>
     </p-card>
 
-    <p-card>
-        <p-dialog [(visible)]="showAddDialog" header="Add/Edit Transaction" [modal]="true" [style]="{ width: '400px' }">
-            <form [formGroup]="transactionForm" (ngSubmit)="saveTransaction()">
-                <div class="form-group">
-                    <label>Date</label>
-                    <input type="date" class="form-control" formControlName="transactionDate" />
-                </div>
-                <div class="form-group">
-                    <label>Description</label>
-                    <input type="text" class="form-control" formControlName="description" />
-                </div>
-                <div class="form-group">
-                    <label>Category</label>
-                    <input type="text" class="form-control" formControlName="category" />
-                </div>
-                <div class="form-group">
-                    <label>Amount</label>
-                    <input type="number" class="form-control" formControlName="amount" />
-                </div>
-                <div class="form-group">
-                    <label>Type</label>
-                    <select class="form-control" formControlName="type">
-                        <option value="EXPENSE">Expense</option>
-                        <option value="INCOME">Income</option>
-                    </select>
-                </div>
-                <div class="text-right mt-3">
-                    <button type="button" class="btn btn-secondary mr-2" (click)="showAddDialog = false">Cancel</button>
-                    <button type="submit" class="btn btn-success">Save</button>
-                </div>
-            </form>
-        </p-dialog>
-    </p-card>
-    <p-toast></p-toast>
-    <p-confirmDialog></p-confirmDialog>
+    <p-dialog header="Add/Edit Transaction" [(visible)]="showAddDialog" [modal]="true" [style]="{ width: '400px' }" closable="false" styleClass="custom-dialog">
+        <form [formGroup]="transactionForm" (ngSubmit)="saveTransaction()">
+            <div class="form-group">
+                <label>Date</label>
+                <input type="date" class="form-control" formControlName="transactionDate" />
+            </div>
+            <div class="form-group">
+                <label>Description</label>
+                <input type="text" class="form-control" formControlName="description" />
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <input type="text" class="form-control" formControlName="category" />
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="number" class="form-control" formControlName="amount" />
+            </div>
+            <div class="form-group">
+                <label>Type</label>
+                <p-dropdown [options]="typeOptions" formControlName="type" placeholder="Select Type" optionLabel="label"
+                    optionValue="value" class="w-100">
+                </p-dropdown>
+
+            </div>
+            <div class="d-flex flex-row-reverse gap-3 mt-5">
+                <button type="button" class="btn btn-secondary mr-2" (click)="showAddDialog = false">Cancel</button>
+                <button type="submit" class="btn btn-success">Save</button>
+            </div>
+        </form>
+    </p-dialog>
 </div>

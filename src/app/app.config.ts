@@ -7,14 +7,16 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import {
-  BrowserAnimationsModule,
   provideAnimations,
 } from '@angular/platform-browser/animations';
 import {
-  BrowserModule,
   provideClientHydration,
 } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MessageService, ConfirmationService } from 'primeng/api';
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeng/themes/aura';
+
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,7 +26,12 @@ export const appConfig: ApplicationConfig = {
     provideClientHydration(),
     provideAnimations(),
     provideAnimationsAsync(),
-    BrowserAnimationsModule,
-    BrowserModule,
+    providePrimeNG({
+      theme: {
+        preset: Aura
+      }
+    }),
+    MessageService,
+    ConfirmationService,
   ],
 };
