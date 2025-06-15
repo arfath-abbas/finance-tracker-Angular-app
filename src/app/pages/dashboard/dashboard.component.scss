@@ -1,0 +1,92 @@
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.calendar-input {
+    width: 160px;
+    padding: 0.4rem;
+}
+
+.summary-cards {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.card {
+    flex: 1;
+    padding: 1rem;
+    background: white;
+    border-radius: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.amount {
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin: 0.5rem 0;
+}
+
+.up {
+    color: green;
+}
+
+.down {
+    color: red;
+}
+
+.dashboard-content {
+    display: flex;
+    gap: 1rem;
+    height: 42vh;
+}
+
+.chart-container,
+.category-container {
+    flex: 1;
+    background: white;
+    padding: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+}
+
+.custom-chart {
+    flex: 1;
+}
+
+.category-scroll {
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 4px;
+}
+
+.category-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+}
+
+.category-bar {
+    height: 8px;
+    margin-top: 2px;
+    background-color: #f0f0f0;
+}
+
+.p-progressbar .p-progressbar-value {
+    background: #3b82f6 !important;
+    border-radius: 5px;
+}
+
+.no-data-message {
+  text-align: center;
+  margin-top: 5rem;
+  color: #999;
+  font-style: italic;
+}

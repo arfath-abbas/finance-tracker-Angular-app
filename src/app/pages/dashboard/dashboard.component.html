@@ -1,29 +1,61 @@
-<div class="row text-center mb-4">
-    <div class="col-md-4">
-        <div class="card border-success">
-            <div class="card-body">
-                <h5>Income</h5>
-                <h3>$4,250.00</h3>
-                <p class="text-success">+12% from last month</p>
+<div class="dashboard-header">
+    <h2>Dashboard</h2>
+    <p-calendar [(ngModel)]="selectedMonth" view="month" dateFormat="MM yy" (onSelect)="fetchDashboardData()"
+        [showIcon]="true" inputStyleClass="calendar-input" />
+</div>
+
+<div class="summary-cards">
+    <div class="card">
+        <h4>Income</h4>
+        <p class="amount">₹{{ dashboard?.income?.toFixed(2) }}</p>
+        <p [class.up]="dashboard?.incomeGrowth >= 0" [class.down]="dashboard?.incomeGrowth < 0">
+            {{ dashboard?.incomeGrowth >= 0 ? '+' : '' }}{{ dashboard?.incomeGrowth }}% from last month
+        </p>
+    </div>
+
+    <div class="card">
+        <h4>Expenses</h4>
+        <p class="amount">₹{{ dashboard?.expenses?.toFixed(2) }}</p>
+        <p [class.up]="dashboard?.expenseGrowth >= 0" [class.down]="dashboard?.expenseGrowth < 0">
+            {{ dashboard?.expenseGrowth >= 0 ? '+' : '' }}{{ dashboard?.expenseGrowth }}% from last month
+        </p>
+    </div>
+
+    <div class="card">
+        <h4>Balance</h4>
+        <p class="amount">₹{{ dashboard?.balance?.toFixed(2) }}</p>
+        <p [class.up]="dashboard?.balanceGrowth >= 0" [class.down]="dashboard?.balanceGrowth < 0">
+            {{ dashboard?.balanceGrowth >= 0 ? '+' : '' }}{{ dashboard?.balanceGrowth }}% from last month
+        </p>
+    </div>
+</div>
+
+<div class="dashboard-content">
+    <div class="chart-container">
+        <h4>Monthly Spending</h4>
+        <ng-container *ngIf="chartData && chartData.datasets[0].data.length > 0; else noChartData">
+            <p-chart type="bar" [data]="chartData" [options]="chartOptions" styleClass="custom-chart"></p-chart>
+        </ng-container>
+        <ng-template #noChartData>
+            <div class="no-data-message">No spending data available for this month.</div>
+        </ng-template>
+    </div>
+
+
+    <div class="category-container">
+        <h4>Spending by Category</h4>
+        <div *ngIf="dashboard?.categorySpending?.length > 0; else noCategories" class="category-scroll">
+            <div *ngFor="let item of dashboard?.categorySpending" class="category-item">
+                <div class="category-header">
+                    <span>{{ item.category }}</span>
+                    <span>₹{{ item.amount.toFixed(2) }} ({{ getCategoryPercentage(item.amount) }}%)</span>
+                </div>
+                <p-progressBar [value]="getCategoryPercentage(item.amount)" styleClass="category-bar"></p-progressBar>
             </div>
         </div>
+        <ng-template #noCategories>
+            <div class="no-data-message">No category-wise spending data available.</div>
+        </ng-template>
     </div>
-    <div class="col-md-4">
-        <div class="card border-danger">
-            <div class="card-body">
-                <h5>Expenses</h5>
-                <h3>$2,840.00</h3>
-                <p class="text-danger">+8% from last month</p>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="card border-primary">
-            <div class="card-body">
-                <h5>Balance</h5>
-                <h3>$1,410.00</h3>
-                <p class="text-primary">+20% from last month</p>
-            </div>
-        </div>
-    </div>
+
 </div>
