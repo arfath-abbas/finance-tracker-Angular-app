@@ -1,68 +1,136 @@
 <div class="container">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2>Transactions</h2>
-        <button class="btn btn-success" (click)="openAddDialog()">+ Add Transaction</button>
+        <button class="btn btn-success" (click)="openAddDialog()">
+            + Add Transaction
+        </button>
     </div>
 
     <p-progressSpinner *ngIf="loading" styleClass="block mx-auto my-5" strokeWidth="4"></p-progressSpinner>
 
     <p-card *ngIf="!loading" class="shadow-sm">
-        <p-table class="modern-table" [value]="transactions" [paginator]="true" [rows]="10"
+        <p-table class="modern-table" [value]="transactions" [paginator]="true" [scrollable]="true" scrollHeight="400px" [rows]="10"
             [rowsPerPageOptions]="[10, 20, 50]" [responsiveLayout]="'scroll'" [showCurrentPageReport]="true"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
             <ng-template pTemplate="header">
                 <tr>
-                    <th>Date</th>
-                    <th>Description</th>
-                    <th>Category</th>
-                    <th>Amount</th>
-                    <th>Type</th>
-                    <th>Actions</th>
+                    <th scope="col" pSortableColumn="transactionDate">Date<p-sortIcon field="transactionDate" /></th>
+                    <th scope="col" pSortableColumn="description">Description<p-sortIcon field="description" /></th>
+                    <th scope="col" pSortableColumn="category">Category<p-sortIcon field="category" /></th>
+                    <th scope="col" pSortableColumn="amount">Amount<p-sortIcon field="amount" /></th>
+                    <th scope="col" pSortableColumn="type">Type<p-sortIcon field="type" /></th>
+                    <th scope="col">Actions</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-tx>
                 <tr>
                     <td>{{ tx.transactionDate }}</td>
                     <td>{{ tx.description }}</td>
-                    <td><span class="badge bg-info">{{ tx.category }}</span></td>
+                    <td>
+                        <span class="badge bg-info">{{ tx.category }}</span>
+                    </td>
                     <td>{{ tx.amount }}</td>
-                    <td><span class="badge bg-warning">{{ tx.type }}</span></td>
+                    <td>
+                        <span class="badge bg-warning">{{ tx.type }}</span>
+                    </td>
                     <td class="action-icons">
-                        <i class="pi pi-pencil icon-edit" (click)="editTransaction(tx)" title="Edit"></i>
-                        <i class="pi pi-trash icon-delete" (click)="deleteTransaction(tx.id)" title="Delete"></i>
+                        <i class="pi pi-pencil icon-edit" (click)="editTransaction(tx)" title="Edit"
+                            (keydown.enter)="editTransaction(tx)"></i>
+                        <i class="pi pi-trash icon-delete" (click)="deleteTransaction(tx.id)" title="Delete"
+                            (keydown.enter)="deleteTransaction(tx.id)"></i>
                     </td>
                 </tr>
             </ng-template>
         </p-table>
     </p-card>
 
-    <p-dialog header="Add/Edit Transaction" [(visible)]="showAddDialog" [modal]="true" [style]="{ width: '400px' }" closable="false" styleClass="custom-dialog">
-        <form [formGroup]="transactionForm" (ngSubmit)="saveTransaction()">
-            <div class="form-group">
-                <label>Date</label>
-                <input type="date" class="form-control" formControlName="transactionDate" />
+    <p-dialog header="Add/Edit Transaction" [(visible)]="showAddDialog" [modal]="true" [style]="{ width: '400px' }"
+        closable="false" styleClass="custom-dialog">
+        <form [formGroup]="transactionForm" (ngSubmit)="saveTransaction()" class="p-fluid">
+            <div class="mb-3">
+                <label for="transactionDate" class="form-label d-block">Date<span class="text-danger">*</span></label>
+                <p-datepicker formControlName="transactionDate" [iconDisplay]="'input'" [showIcon]="true"
+                    inputId="transactionDate" dateFormat="dd-mm-yy" class="w-100" appendTo="body" [ngClass]="{
+            'invalid-field':
+              transactionForm.get('transactionDate')?.invalid &&
+              transactionForm.get('transactionDate')?.touched
+          }" autofocus="false" [tabindex]="-1">
+                </p-datepicker>
+                <small class="text-danger" *ngIf="
+                    transactionForm.get('transactionDate')?.touched &&
+                    transactionForm.get('transactionDate')?.invalid
+                ">
+                    Transaction Date is required
+                </small>
             </div>
-            <div class="form-group">
-                <label>Description</label>
-                <input type="text" class="form-control" formControlName="description" />
-            </div>
-            <div class="form-group">
-                <label>Category</label>
-                <input type="text" class="form-control" formControlName="category" />
-            </div>
-            <div class="form-group">
-                <label>Amount</label>
-                <input type="number" class="form-control" formControlName="amount" />
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <p-dropdown [options]="typeOptions" formControlName="type" placeholder="Select Type" optionLabel="label"
-                    optionValue="value" class="w-100">
-                </p-dropdown>
 
+            <div class="mb-3">
+                <label for="description" class="form-label">Description<span class="text-danger">*</span></label>
+                <input id="description" type="text" pInputText formControlName="description" class="w-100" [ngClass]="{
+            'invalid-field':
+              transactionForm.get('description')?.invalid &&
+              transactionForm.get('description')?.touched
+          }" />
+                <small class="text-danger" *ngIf="
+                    transactionForm.get('description')?.touched &&
+                    transactionForm.get('description')?.invalid
+                ">
+                    Description is required
+                </small>
             </div>
-            <div class="d-flex flex-row-reverse gap-3 mt-5">
-                <button type="button" class="btn btn-secondary mr-2" (click)="showAddDialog = false">Cancel</button>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Category<span class="text-danger">*</span></label>
+                <input id="category" type="text" pInputText formControlName="category" class="w-100" [ngClass]="{
+            'invalid-field':
+              transactionForm.get('category')?.invalid &&
+              transactionForm.get('category')?.touched
+          }" />
+                <small class="text-danger" *ngIf="
+                    transactionForm.get('category')?.touched &&
+                    transactionForm.get('category')?.invalid
+                ">
+                    Category is required
+                </small>
+            </div>
+
+            <div class="mb-3">
+                <label for="amount" class="form-label">Amount<span class="text-danger">*</span></label>
+                <p-inputNumber id="amount" formControlName="amount" [mode]="'decimal'" [minFractionDigits]="2"
+                    class="w-100" [ngClass]="{
+            'invalid-field':
+              transactionForm.get('amount')?.invalid &&
+              transactionForm.get('amount')?.touched
+          }"></p-inputNumber>
+                <small class="text-danger" *ngIf="
+                    transactionForm.get('amount')?.touched &&
+                    transactionForm.get('amount')?.invalid
+                ">
+                    Amount is required
+                </small>
+            </div>
+
+            <div class="mb-4">
+                <label for="type" class="form-label">Type<span class="text-danger">*</span></label>
+                <p-dropdown [options]="typeOptions" formControlName="type" placeholder="Select Type" optionLabel="label"
+                    optionValue="value" class="w-100" [ngClass]="{
+            'invalid-field':
+              transactionForm.get('type')?.invalid &&
+              transactionForm.get('type')?.touched
+          }">
+                </p-dropdown>
+                <small class="text-danger" *ngIf="
+                    transactionForm.get('type')?.touched &&
+                    transactionForm.get('type')?.invalid
+                ">
+                    Type is required
+                </small>
+            </div>
+
+            <div class="d-flex justify-content-end gap-2 mt-4">
+                <button type="button" class="btn btn-secondary" (click)="showAddDialog = false">
+                    Cancel
+                </button>
                 <button type="submit" class="btn btn-success">Save</button>
             </div>
         </form>

@@ -19,6 +19,9 @@ import { HttpService } from '../../../core/services/http.service';
 import { CardModule } from 'primeng/card';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { DropdownModule } from 'primeng/dropdown';
+import { InputNumber } from 'primeng/inputnumber';
+import { CalendarIcon } from 'primeng/icons';
+import { DatePicker } from 'primeng/datepicker';
 
 @Component({
     selector: 'app-transactions',
@@ -35,7 +38,9 @@ import { DropdownModule } from 'primeng/dropdown';
         ProgressSpinnerModule,
         ReactiveFormsModule,
         CardModule,
-        DropdownModule
+        DropdownModule,
+        InputNumber,
+        DatePicker
     ],
     templateUrl: './transactions.component.html',
     styleUrls: ['./transactions.component.scss']
@@ -94,6 +99,11 @@ export class TransactionsComponent implements OnInit {
     }
 
     saveTransaction() {
+        if (this.transactionForm.invalid) {
+            this.transactionForm.markAllAsTouched();
+            return;
+        }
+
         if (this.transactionForm.valid) {
             const tx = this.transactionForm.value;
 
@@ -146,9 +156,19 @@ export class TransactionsComponent implements OnInit {
 
     editTransaction(tx: any) {
         this.selectedTx = tx;
-        this.transactionForm.patchValue(tx);
+
+        const patchTx = {
+            ...tx,
+            transactionDate: tx.transactionDate ? new Date(tx.transactionDate) : null
+        };
+
+        // Use setTimeout to avoid p-datepicker autofocus bug
         this.showAddDialog = true;
+        setTimeout(() => {
+            this.transactionForm.patchValue(patchTx);
+        });
     }
+
 
     deleteTransaction(id: number) {
         this.confirm.confirm({
