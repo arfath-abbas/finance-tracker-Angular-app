@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class HttpService {
     private readonly baseUrl = environment.apiBaseUrl;
-    private http = inject(HttpClient);
+    private readonly http = inject(HttpClient);
 
     get<T>(endpoint: string, params?: HttpParams): Observable<T> {
         return this.http.get<T>(this.baseUrl + endpoint, { params });

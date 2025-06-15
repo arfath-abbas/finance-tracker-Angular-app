@@ -20,7 +20,6 @@ import { CardModule } from 'primeng/card';
 import { TransactionService } from '../../../core/services/transaction.service';
 import { DropdownModule } from 'primeng/dropdown';
 import { InputNumber } from 'primeng/inputnumber';
-import { CalendarIcon } from 'primeng/icons';
 import { DatePicker } from 'primeng/datepicker';
 
 @Component({

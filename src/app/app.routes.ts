@@ -5,9 +5,9 @@ import { ReportsComponent } from './pages/reports/reports.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'transactions', component: TransactionsComponent },
-  { path: 'reports', component: ReportsComponent },
-  { path: 'settings', component: SettingsComponent },
+	{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+	{ path: 'dashboard', component: DashboardComponent },
+	{ path: 'transactions', component: TransactionsComponent },
+	{ path: 'reports', component: ReportsComponent },
+	{ path: 'settings', component: SettingsComponent },
 ];
