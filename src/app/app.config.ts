@@ -4,7 +4,7 @@ import { provideRouter } from '@angular/router';
 import { routes } from './app.routes';
 import {
     provideHttpClient,
-    withInterceptorsFromDi,
+    withInterceptors,
 } from '@angular/common/http';
 import {
     provideAnimations,
@@ -16,13 +16,14 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { MessageService, ConfirmationService } from 'primeng/api';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeng/themes/aura';
+import { authInterceptor } from '../core/services/app.interceptor.service';
 
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideZoneChangeDetection({ eventCoalescing: true }),
         provideRouter(routes),
-        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClient(withInterceptors([authInterceptor])),
         provideClientHydration(),
         provideAnimations(),
         provideAnimationsAsync(),

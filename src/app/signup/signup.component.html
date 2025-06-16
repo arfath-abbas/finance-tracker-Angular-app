@@ -1,0 +1,18 @@
+<div class="auth-container">
+  <div class="left-pane">
+    <h1>Welcome!</h1>
+  </div>
+  <div class="right-pane">
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+      <h2>Sign Up</h2>
+      <input type="text" formControlName="firstName" placeholder="First Name" />
+      <input type="text" formControlName="lastName" placeholder="Last Name" />
+      <input type="email" formControlName="email" placeholder="Email" />
+      <input type="text" formControlName="username" placeholder="Username" />
+      <input type="password" formControlName="password" placeholder="Password" />
+      <input type="password" formControlName="confirmPassword" placeholder="Confirm Password" />
+      <button type="submit">Create Account</button>
+      <p>Already have an account? <a routerLink="/login">Login</a></p>
+    </form>
+  </div>
+</div>
