@@ -1,6 +1,6 @@
 <div class="dashboard-header">
     <h2>Dashboard</h2>
-    <p-calendar [(ngModel)]="selectedMonth" view="month" dateFormat="MM yy" (onSelect)="fetchDashboardData()"
+    <p-datepicker  [(ngModel)]="selectedMonth" view="month" dateFormat="MM yy" (onSelect)="fetchDashboardData()"
         [showIcon]="true" inputStyleClass="calendar-input" />
 </div>
 

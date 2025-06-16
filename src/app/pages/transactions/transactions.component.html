@@ -112,13 +112,13 @@
 
             <div class="mb-4">
                 <label for="type" class="form-label">Type<span class="text-danger">*</span></label>
-                <p-dropdown [options]="typeOptions" formControlName="type" placeholder="Select Type" optionLabel="label"
+                <p-select  [options]="typeOptions" formControlName="type" placeholder="Select Type" optionLabel="label"
                     optionValue="value" class="w-100" [ngClass]="{
             'invalid-field':
               transactionForm.get('type')?.invalid &&
               transactionForm.get('type')?.touched
           }">
-                </p-dropdown>
+                </p-select >
                 <small class="text-danger" *ngIf="
                     transactionForm.get('type')?.touched &&
                     transactionForm.get('type')?.invalid

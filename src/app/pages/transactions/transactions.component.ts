@@ -18,9 +18,9 @@ import { TooltipModule } from 'primeng/tooltip';
 import { HttpService } from '../../../core/services/http.service';
 import { CardModule } from 'primeng/card';
 import { TransactionService } from '../../../core/services/transaction.service';
-import { DropdownModule } from 'primeng/dropdown';
 import { InputNumber } from 'primeng/inputnumber';
 import { DatePicker } from 'primeng/datepicker';
+import { SelectModule } from 'primeng/select';
 
 @Component({
     selector: 'app-transactions',
@@ -37,7 +37,7 @@ import { DatePicker } from 'primeng/datepicker';
         ProgressSpinnerModule,
         ReactiveFormsModule,
         CardModule,
-        DropdownModule,
+        SelectModule,
         InputNumber,
         DatePicker
     ],

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChartModule } from 'primeng/chart';
-import { CalendarModule } from 'primeng/calendar';
+import { DatePickerModule } from 'primeng/datepicker';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { FormsModule } from '@angular/forms';
 import { DashboardService } from '../../../core/services/dashboard.service';
@@ -9,7 +9,7 @@ import { DashboardService } from '../../../core/services/dashboard.service';
 @Component({
 	selector: 'app-dashboard',
 	standalone: true,
-	imports: [CommonModule, ChartModule, CalendarModule, ProgressBarModule, FormsModule],
+	imports: [CommonModule, ChartModule, DatePickerModule, ProgressBarModule, FormsModule],
 	templateUrl: './dashboard.component.html',
 	styleUrls: ['./dashboard.component.scss']
 })
@@ -27,12 +27,16 @@ export class DashboardComponent implements OnInit {
 	}
 
 	fetchDashboardData(): void {
-		const monthStr = this.selectedMonth.toISOString().slice(0, 7);
+		const year = this.selectedMonth.getFullYear();
+		const month = (this.selectedMonth.getMonth() + 1).toString().padStart(2, '0');
+		const monthStr = `${year}-${month}`;
+
 		this.dashboardService.getDashboardData(monthStr).subscribe((data: any) => {
 			this.dashboard = data;
 			this.prepareChart(data.dailySpending);
 		});
 	}
+
 
 	prepareChart(dailySpending: any[]) {
 		if (!dailySpending || dailySpending.length === 0) {
