@@ -205,25 +205,21 @@ export class TransactionsComponent implements OnInit {
     }
 
     categoryBadge(category: string): string {
-        let badgeClass: string;
+        if (!category) return 'bg-secondary text-white';
 
-        switch (category) {
-            case 'FOOD':
-                badgeClass = 'bg-success text-white';
-                break;
-            case 'RENT':
-                badgeClass = 'bg-danger text-white';
-                break;
-            default:
-                badgeClass = 'bg-warning text-dark';
-                break;
+        const normalized = category.trim().toUpperCase();
+
+        switch (normalized) {
+            case 'FOOD': return 'bg-success text-white';
+            case 'RENT': return 'bg-danger text-white';
+            case 'TRAVEL': return 'bg-primary text-white';
+            case 'ENTERTAINMENT': return 'bg-warning text-dark';
+            case 'SALARY': return 'bg-dark text-white';
+            default: return 'bg-info text-dark';
         }
-
-        return badgeClass;
     }
 
-
     typeBadge(type: string): string {
-        return type === 'EXPENSE' ? 'bg-danger text-white' : 'bg-primary text-white';
+        return type === 'EXPENSE' ? 'bg-danger text-white' : 'bg-success text-white';
     }
 }

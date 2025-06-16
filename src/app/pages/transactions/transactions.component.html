@@ -9,8 +9,8 @@
     <p-progressSpinner *ngIf="loading" styleClass="block mx-auto my-5" strokeWidth="4"></p-progressSpinner>
 
     <p-card *ngIf="!loading" class="shadow-sm">
-        <p-table class="modern-table" [value]="transactions" [paginator]="true" [scrollable]="true" scrollHeight="400px" [rows]="10"
-            [rowsPerPageOptions]="[10, 20, 50]" [responsiveLayout]="'scroll'" [showCurrentPageReport]="true"
+        <p-table class="modern-table" [value]="transactions" [paginator]="true" [scrollable]="true" scrollHeight="400px"
+            [rows]="10" [rowsPerPageOptions]="[10, 20, 50]" [responsiveLayout]="'scroll'" [showCurrentPageReport]="true"
             currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries">
             <ng-template pTemplate="header">
                 <tr>
@@ -27,11 +27,11 @@
                     <td>{{ tx.transactionDate }}</td>
                     <td>{{ tx.description }}</td>
                     <td>
-                        <span class="badge bg-info">{{ tx.category }}</span>
+                        <span class="badge" [ngClass]="categoryBadge(tx.category)">{{ tx.category }}</span>
                     </td>
                     <td>{{ tx.amount }}</td>
                     <td>
-                        <span class="badge bg-warning">{{ tx.type }}</span>
+                        <span class="badge" [ngClass]="typeBadge(tx.type)">{{ tx.type }}</span>
                     </td>
                     <td class="action-icons">
                         <i class="pi pi-pencil icon-edit" (click)="editTransaction(tx)" title="Edit"
@@ -112,13 +112,13 @@
 
             <div class="mb-4">
                 <label for="type" class="form-label">Type<span class="text-danger">*</span></label>
-                <p-select  [options]="typeOptions" formControlName="type" placeholder="Select Type" optionLabel="label"
+                <p-select [options]="typeOptions" formControlName="type" placeholder="Select Type" optionLabel="label"
                     optionValue="value" class="w-100" [ngClass]="{
             'invalid-field':
               transactionForm.get('type')?.invalid &&
               transactionForm.get('type')?.touched
           }">
-                </p-select >
+                </p-select>
                 <small class="text-danger" *ngIf="
                     transactionForm.get('type')?.touched &&
                     transactionForm.get('type')?.invalid
