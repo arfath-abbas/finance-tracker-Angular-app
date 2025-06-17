@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { CommonModule } from '@angular/common';
 import { ToastService } from '../../core/services/toast.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
     selector: 'app-login',
@@ -18,13 +19,26 @@ export class LoginComponent implements OnInit {
         private readonly fb: FormBuilder,
         private readonly authService: AuthService,
         private readonly router: Router,
-        private readonly toast: ToastService
+        private readonly route: ActivatedRoute,
+        private readonly toast: ToastService,
+        private readonly messageService: MessageService
     ) { }
 
     ngOnInit(): void {
         this.loginForm = this.fb.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
+        });
+
+        this.route.queryParams.subscribe(params => {
+            if (params['sessionExpired']) {
+                this.messageService.add({
+                    severity: 'warn',
+                    summary: 'Session Expired',
+                    detail: 'Please login again.',
+                    life: 3000
+                });
+            }
         });
     }
 
@@ -34,7 +48,7 @@ export class LoginComponent implements OnInit {
         this.authService.login(this.loginForm.value).subscribe({
             next: (res) => {
                 localStorage.setItem('token', res.token);
-                this.toast.success('Login Successful', `Welcome back, ${res.firstName}`); 
+                this.toast.success('Login Successful', `Welcome back, ${res.firstName}`);
                 this.router.navigate(['/dashboard']);
             },
             error: (err) => {
