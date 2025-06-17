@@ -24,4 +24,8 @@ export class AppComponent {
             this.router.navigate(['/login']);
         }
     }
+
+    navigate() {
+        this.router.navigate(['/dashboard']);
+    }
 }

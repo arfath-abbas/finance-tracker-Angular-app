@@ -52,7 +52,7 @@ export class SignupComponent implements OnInit {
                 this.router.navigate(['/login']);
             },
             error: err => {
-                alert('Signup failed!');
+                this.toast.error('Error', 'Something went wrong')
                 console.error(err);
             }
         });
