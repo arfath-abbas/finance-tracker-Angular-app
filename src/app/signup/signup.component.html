@@ -15,12 +15,25 @@
                 name is required</div>
 
             <input type="email" formControlName="email" placeholder="Email" />
-            <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.invalid" class="error">Enter a
-                valid email</div>
+            <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.hasError('required')"
+                class="error">
+                Email is required
+            </div>
+            <div *ngIf="signupForm.get('email')?.touched && signupForm.get('email')?.hasError('email')" class="error">
+                Enter a valid email
+            </div>
+            <div *ngIf="signupForm.get('email')?.hasError('emailTaken')" class="error">
+                This email is already in use
+            </div>
 
             <input type="text" formControlName="username" placeholder="Username" />
-            <div *ngIf="signupForm.get('username')?.touched && signupForm.get('username')?.invalid" class="error">
-                Username is required</div>
+            <div *ngIf="signupForm.get('username')?.touched && signupForm.get('username')?.hasError('required')"
+                class="error">
+                Username is required
+            </div>
+            <div *ngIf="signupForm.get('username')?.hasError('usernameTaken')" class="error">
+                This username is already taken
+            </div>
 
             <input type="password" formControlName="password" placeholder="Password"
                 title="Password must be at least 8 characters and include uppercase, lowercase, number, and special character" />

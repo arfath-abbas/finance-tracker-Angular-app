@@ -56,7 +56,7 @@ export class SignupComponent implements OnInit {
         const { confirmPassword, ...payload } = this.signupForm.value;
 
         if (payload.password !== confirmPassword) {
-            alert('Passwords do not match');
+            this.signupForm.setErrors({ passwordMismatch: true });
             return;
         }
 
@@ -66,11 +66,20 @@ export class SignupComponent implements OnInit {
                 this.router.navigate(['/login']);
             },
             error: err => {
-                this.toast.error('Error', 'Something went wrong')
-                console.error(err);
+                const errorCode = err?.error?.message;
+
+                if (errorCode === 'UsernameTaken') {
+                    this.signupForm.get('username')?.setErrors({ usernameTaken: true });
+                } else if (errorCode === 'EmailTaken') {
+                    this.signupForm.get('email')?.setErrors({ emailTaken: true });
+                } else {
+                    this.toast.error('Error', 'Something went wrong');
+                    console.error(err);
+                }
             }
         });
     }
+
 
     login() {
         this.router.navigate(['/login']);
