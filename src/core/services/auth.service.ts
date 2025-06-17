@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 @Injectable({ providedIn: 'root' })
 export class AuthService {
 
-      constructor(private readonly router: Router) {}
+    constructor(private readonly router: Router) { }
 
     private readonly http = inject(HttpClient);
     private readonly baseUrl = `${environment.apiBaseUrl}/api/auth`;
@@ -21,8 +21,8 @@ export class AuthService {
     }
 
     logout(): void {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    this.router.navigate(['/login']);
-  }
+        localStorage.removeItem('token');
+        localStorage.removeItem('username');
+        this.router.navigate(['/login']);
+    }
 }
