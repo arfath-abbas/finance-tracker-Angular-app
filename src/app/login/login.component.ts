@@ -52,7 +52,8 @@ export class LoginComponent implements OnInit {
                 this.router.navigate(['/dashboard']);
             },
             error: (err) => {
-                this.toast.error(err.error.message);
+                const errorMessage = err?.error?.message ?? 'Server is unreachable. Please try again later.';
+                this.toast.error(errorMessage);
             }
         });
     }

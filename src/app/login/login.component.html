@@ -1,14 +1,31 @@
-<div class="auth-container">
-    <div class="left-pane">
-        <h1>Welcome Back!</h1>
-    </div>
-    <div class="right-pane">
-        <form [formGroup]="loginForm" (ngSubmit)="login()">
-            <h2>Login</h2>
-            <input type="text" formControlName="username" placeholder="Username" />
-            <input type="password" formControlName="password" placeholder="Password" />
-            <button type="submit">Login</button>
-            <p>Don't have an account? <a routerLink="/signup" (click)="signUp()">Sign Up</a></p>
-        </form>
+<div class="container-fluid min-vh-100 d-flex flex-column">
+    <div class="row flex-grow-1">
+        <!-- Left Pane -->
+        <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center text-white"
+            style="background: url('/assets/auth-bg.jpg') no-repeat center/cover;">
+            <h1 class="display-4">Welcome Back!</h1>
+        </div>
+
+        <!-- Right Pane -->
+        <div class="col-md-6 d-flex align-items-center justify-content-center bg-white px-3 py-2">
+            <form [formGroup]="loginForm" (ngSubmit)="login()" class="w-100" style="max-width: 400px;">
+                <h2 class="mb-4">Login</h2>
+
+                <div class="mb-2">
+                    <input type="text" class="form-control" formControlName="username" placeholder="Username">
+                </div>
+
+                <div class="mb-2">
+                    <input type="password" class="form-control" formControlName="password" placeholder="Password">
+                </div>
+
+                <button type="submit" class="btn btn-success w-100 mt-2">Login</button>
+
+                <p class="text-center mt-3 mb-0">
+                    Don't have an account?
+                    <a routerLink="/signup" (click)="signUp()">Sign Up</a>
+                </p>
+            </form>
+        </div>
     </div>
 </div>

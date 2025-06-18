@@ -4,15 +4,21 @@ body {
 	margin: 0;
 	font-family: 'Segoe UI', Roboto, sans-serif;
 	background-color: #e7e5e5;
-
+	overflow-y: auto
 }
 
 .auth-container {
 	display: flex;
 	height: 100vh;
+	flex-direction: row;
+
+	.left-pane,
+	.right-pane {
+		flex: 1;
+		min-width: 0;
+	}
 
 	.left-pane {
-		flex: 1;
 		background: url('/assets/auth-bg.jpg') no-repeat center/cover;
 		color: white;
 		display: flex;
@@ -23,7 +29,6 @@ body {
 	}
 
 	.right-pane {
-		flex: 1;
 		background: #fff;
 		padding: 3rem;
 		display: flex;
@@ -39,6 +44,7 @@ body {
 				padding: 0.75rem;
 				border: 1px solid #ccc;
 				border-radius: 8px;
+				width: 100%;
 			}
 
 			button {
@@ -56,6 +62,30 @@ body {
 				color: #10b981;
 				font-weight: 600;
 				cursor: pointer;
+			}
+		}
+	}
+
+	// 📱 Responsive for small screens
+	@media (max-width: 768px) {
+		flex-direction: column;
+
+		.left-pane {
+			flex: none;
+			height: 200px;
+			font-size: 1.5rem;
+			text-align: center;
+		}
+
+		.right-pane {
+			padding: 1.5rem;
+
+			form {
+
+				input,
+				button {
+					font-size: 1rem;
+				}
 			}
 		}
 	}
