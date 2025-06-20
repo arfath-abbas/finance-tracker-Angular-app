@@ -1,4 +1,4 @@
-# FinanceTrackerApp
+#  💲 FinTrack – Personal Finance Tracker App
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.1.
 
@@ -10,50 +10,46 @@ To start a local development server, run:
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+Live Demo: https://finance-tracker-angular-app.vercel.app
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+## 📌 Overview
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+FinTrack is a modern personal finance tracker built using Angular 19, Spring Boot, and PostgreSQL. 
+The app enables users to manage their income, expenses, and gain insights into their financial habits through dashboards and reports.
 
-```bash
-ng generate --help
-```
+---
 
-## Building
+## 🚀 Features
 
-To build the project run:
+- 🔐 User Authentication (JWT based)
+- 👥 Signup with password validation & duplicate check (email/username)
+- 🔁 Login using either **username or email**
+- 📊 Dashboard with financial summary
+- 💸 Add, edit, delete transactions
+- 📈 Reports for spending patterns
+- ⚙️ Settings & Profile management
+- 🌐 Fully responsive and mobile-friendly
+- 🧠 Inline form validations with helpful tooltips and error messages
+- 🌙 Optional dark mode ready (with PrimeNG Aura theme)
+- 🧪 Integrated unit tests for UI and backend
 
-```bash
-ng build
-```
+---
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## 🔧 Tech Stack
 
-## Running unit tests
+### Frontend
+- [Angular 19](https://angular.io/)
+- [Bootstrap 5](https://getbootstrap.com/)
+- [PrimeNG 19](https://primeng.org/)
+- SCSS + Responsive layout
+- Hosted on [Vercel](https://vercel.com/)
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+### Backend
+- [Spring Boot 3+](https://spring.io/projects/spring-boot)
+- [Spring Security + JWT](https://spring.io/guides/gs/securing-web/)
+- REST APIs for Auth & Finance data
+- [PostgreSQL](https://www.postgresql.org/)
+- Hosted on (AWS EC2 Instance)
