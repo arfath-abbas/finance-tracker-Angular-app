@@ -29,7 +29,6 @@ The app enables users to manage their income, expenses, and gain insights into t
 - 🔁 Login using either **username or email**
 - 📊 Dashboard with financial summary
 - 💸 Add, edit, delete transactions
-- 📈 Reports for spending patterns
 - ⚙️ Settings & Profile management
 - 🌐 Fully responsive and mobile-friendly
 - 🧠 Inline form validations with helpful tooltips and error messages
